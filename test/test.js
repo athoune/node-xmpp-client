@@ -28,6 +28,7 @@ exports.testClient = function(test) {
 	c.debug = true;
 	c.addListener('online', function() {
 		test.ok(true);
+		c.message(conf.to, "Beuha de test!");
 		test.done();
 	});
 };

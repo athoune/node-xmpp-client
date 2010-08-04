@@ -1,4 +1,5 @@
 var sys = require('sys'),
+	colors = require('colors'),
 	Client = require('../lib/xmpp-client').Client,
 	Jid = require('../lib/xmpp-client').Jid,
 	conf = require('./conf').conf;
@@ -23,13 +24,23 @@ exports.testClientInit = function(test) {
 };
 
 exports.testClient = function(test) {
-	test.expect(1);
-	var c = new Client(conf.jid, conf.password);
-	c.debug = true;
-	c.addListener('online', function() {
-		test.ok(true);
-		c.message(conf.to, "Beuha de test!");
+	test.expect(3);
+	var MESSAGE = "Beuha de test!";
+	var b = new Client(conf.b.jid, conf.b.password);
+	b.addListener('message', function(from, msg, stanza){
+		sys.debug('Message from ' + from.red + ' : ' + msg.yellow);
+		test.equals(MESSAGE, msg);
 		test.done();
+	});
+	b.addListener('online', function() {
+		sys.debug('b is connected'.red);
+		test.ok(true);
+		var a = new Client(conf.a.jid, conf.a.password);
+		a.addListener('online', function() {
+			sys.debug('a is connected'.green);
+			test.ok(true);
+			a.message(conf.b.jid, MESSAGE);
+		});
 	});
 };
 

@@ -38,6 +38,8 @@ exports.testClient = function(test) {
 		var a = new Client(conf.a.jid, conf.a.password);
 		a.addListener('online', function() {
 			sys.debug('a is connected'.green);
+			sys.debug('a presences : ' + JSON.stringify(a.presences).green);
+//			test.equals('available', a.presences['' + b.jid]);
 			test.ok(true);
 			a.message(conf.b.jid, MESSAGE);
 		});

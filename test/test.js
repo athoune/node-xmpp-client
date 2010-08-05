@@ -18,7 +18,7 @@ exports.testJid = function(test) {
 };
 
 exports.testClientInit = function(test) {
-	var c = new Client('mathieu@gtalk.com', 'toto');
+	var c = new Client({jid: 'mathieu@gtalk.com', password:'toto'});
 	test.equals('gtalk.com', c.host);
 	test.done();
 };
@@ -26,7 +26,7 @@ exports.testClientInit = function(test) {
 exports.testClient = function(test) {
 	test.expect(3);
 	var MESSAGE = "Beuha de test!";
-	var b = new Client(conf.b.jid, conf.b.password);
+	var b = new Client(conf.b);
 	b.addListener('message', function(from, msg, stanza){
 		sys.debug('Message from ' + from.red + ' : ' + msg.yellow);
 		test.equals(MESSAGE, msg);
@@ -35,7 +35,7 @@ exports.testClient = function(test) {
 	b.addListener('online', function() {
 		sys.debug('b is connected'.red);
 		test.ok(true);
-		var a = new Client(conf.a.jid, conf.a.password);
+		var a = new Client(conf.a);
 		a.addListener('online', function() {
 			sys.debug('a is connected'.green);
 			sys.debug('a presences : ' + JSON.stringify(a.presences).green);

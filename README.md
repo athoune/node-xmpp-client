@@ -25,7 +25,9 @@ You have to edit a new file in `test/conf.js` :
     exports.conf = {
       a: {
         jid: 'andre@gmail.com',
-        password: '42'
+        password: '42',
+        color: 'red',
+        host: 'talk.google.com'
       },
       b: {
         jid: 'bob@jabber.org',

@@ -1,17 +1,17 @@
 var sys = require('sys'),
 	colors = require('colors'),
 	Client = require('../lib/xmpp-client').Client,
-	Jid = require('../lib/xmpp-client').Jid,
+	JID = require('xmpp').JID,
 	conf = require('./conf').conf;
 
 exports.testJid = function(test) {
 	test.expect(4);
-	var j = new Jid('mathieu@gtalk.com');
+	var j = new JID('mathieu@gtalk.com');
 	//sys.debug(JSON.stringify(j));
-	test.equals('mathieu', j.node);
+	test.equals('mathieu', j.user);
 	test.equals('gtalk.com', j.domain);
-	test.equals('node', j.resource);
-	j = new Jid('mathieu@jabber.org/machin');
+	test.equals(null, j.resource);
+	j = new JID('mathieu@jabber.org/machin');
 	//sys.debug(JSON.stringify(j));
 	test.equals('machin', j.resource);
 	test.done();

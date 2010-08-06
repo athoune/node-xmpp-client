@@ -3,8 +3,12 @@
 	"version"     : "0.0.1",
 	"main"        : "./lib/xmpp-client",
 	"description" : "High level xmpp client for node.js",
-	"author"      : "Mathieu Lecarme",
-	"dependencies": {"node-xmpp": "0.0.4"},
+	"author"      : "Mathieu Lecarme <mathieu@garambrogne.net>",
+	"dependencies": {
+		"node-xmpp": ">= 0.0.4",
+		"colors"   : ">= 0.3.0"
+	},
+	"keywords"    : ["xmpp"],
 	"repositories": [{
 		"type": "git",
 		"path": "git://github.com/athoune/node-xmpp-client.git"

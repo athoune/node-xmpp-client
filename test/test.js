@@ -22,7 +22,7 @@ exports.testClientInit = function(test) {
 	test.equals('gtalk.com', c.host);
 	test.done();
 };
-
+/*
 exports.testClient = function(test) {
 	test.expect(3);
 	var MESSAGE = "Beuha de test!";
@@ -43,6 +43,22 @@ exports.testClient = function(test) {
 			test.ok(true);
 			a.message(conf.b.jid, MESSAGE);
 		});
+	});
+};
+*/
+
+exports.testRoom = function(test) {
+	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
+	var b = new Client(conf.b);
+	b.addListener('online', function() {
+		sys.debug('b is connected'.red);
+		var b_room = b.room(ROOM);
+		var a = new Client(conf.a);
+		a.addListener('online', function() {
+			sys.debug('a is connected'.green);
+			var a_room = a.room(ROOM);
+		});
+		test.done();
 	});
 };
 

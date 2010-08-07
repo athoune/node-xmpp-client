@@ -49,16 +49,15 @@ exports.testClient = function(test) {
 
 exports.testRoom = function(test) {
 	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
-	var b = new Client(conf.b);
-	b.addListener('online', function() {
+	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
+		sys.debug(('enter in ' + ROOM).green);
 		var b_room = b.room(ROOM);
-		var a = new Client(conf.a);
-		a.addListener('online', function() {
+		var a = new Client(conf.a, function() {
 			sys.debug('a is connected'.green);
 			var a_room = a.room(ROOM);
 		});
-		test.done();
+		//test.done();
 	});
 };
 

@@ -52,12 +52,16 @@ exports.testRoom = function(test) {
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		sys.debug(('enter in ' + ROOM).green);
-		var b_room = b.room(ROOM);
-		var a = new Client(conf.a, function() {
-			sys.debug('a is connected'.green);
-			var a_room = a.room(ROOM);
+		var b_room = b.room(ROOM, function(status) {
+			var a = new Client(conf.a, function() {
+				sys.debug('a is connected'.green);
+				var a_room = a.room(ROOM, function(status) {
+					sys.debug(status);
+					test.done();
+				});
+			});
+			
 		});
-		//test.done();
 	});
 };
 

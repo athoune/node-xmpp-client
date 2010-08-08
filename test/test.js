@@ -57,6 +57,7 @@ exports.testRoom = function(test) {
 				sys.debug('a is connected'.green);
 				var a_room = a.room(ROOM, function(status) {
 					sys.debug(status);
+					sys.debug(this.role);
 					test.done();
 				});
 			});

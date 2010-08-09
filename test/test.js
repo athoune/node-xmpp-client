@@ -48,34 +48,34 @@ exports.testClient = function(test) {
 */
 
 exports.testRoom = function(test) {
-	//test.expect(1);
+	test.expect(1);
 	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
 	var MESSAGE = "Hello everybody";
+	var cpt = 0;
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		sys.debug(('enter in ' + ROOM).green);
 		//console.log(sys.inspect(this, true, null));
 		var b_room = b.room(ROOM, function(status) {
+			sys.debug('b room is created'.green);
 			this.addListener('message', function(from, msg, stanza) {
-				sys.debug(msg.yellow);
-				test.done();
+				sys.debug(from.yellow);
+				test.equals(MESSAGE, msg);
+				if(MESSAGE == msg) {
+					test.done();
+				}
 			});
-			this.message(MESSAGE);
-/*			var a = new Client(conf.a, function() {
+			var a = new Client(conf.a, function() {
 				sys.debug('a is connected'.green);
 				var a_room = a.room(ROOM, function(status) {
-					sys.debug(status);
-					sys.debug(this.role);
+					sys.debug(status.green);
+					sys.debug(this.role.green);
 					this.addListener('message', function(from, msg, stanza) {
 						sys.debug('message : ' + msg);
-						test.equals(MESSAGE, msg);
-						if(MESSAGE == msg) {
-							test.done();
-						}
 					});
-					b_room.message(MESSAGE);
+					this.message(MESSAGE);
 				});
-			});*/
+			});
 		});
 	});
 };

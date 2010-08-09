@@ -80,6 +80,18 @@ exports.testRoom = function(test) {
 	});
 };
 
+exports.testPubSub = function(test) {
+	var b = new Client(conf.b, function() {
+		sys.debug('b is connected'.red);
+		this.addListener('iq:error', function(id, stanza) {
+			sys.debug(stanza.toString().yellow);
+			test.done();
+		});
+		b.suscribe(null, 'poems', function() {
+		});
+	});
+};
+
 if(module.id == '.') {
 	var testrunner = require('nodeunit').testrunner;
 	testrunner.run([__filename]);

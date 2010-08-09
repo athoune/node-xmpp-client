@@ -48,14 +48,20 @@ exports.testClient = function(test) {
 */
 
 exports.testRoom = function(test) {
-	test.expect(1);
+	//test.expect(1);
 	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
 	var MESSAGE = "Hello everybody";
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		sys.debug(('enter in ' + ROOM).green);
+		//console.log(sys.inspect(this, true, null));
 		var b_room = b.room(ROOM, function(status) {
-			var a = new Client(conf.a, function() {
+			this.addListener('message', function(from, msg, stanza) {
+				sys.debug(msg.yellow);
+				test.done();
+			});
+			this.message(MESSAGE);
+/*			var a = new Client(conf.a, function() {
 				sys.debug('a is connected'.green);
 				var a_room = a.room(ROOM, function(status) {
 					sys.debug(status);
@@ -69,8 +75,7 @@ exports.testRoom = function(test) {
 					});
 					b_room.message(MESSAGE);
 				});
-			});
-			
+			});*/
 		});
 	});
 };

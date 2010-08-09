@@ -62,6 +62,11 @@ The client throw events :
  * _presence:error_
  * _message_
 
+And some attributes are available :
+
+ * _presences_
+ * _roster_
+
 ### IQ ###
 Iq is handled quietly. You can ask someone with a callback, for the response.
 
@@ -75,9 +80,9 @@ Iq is handled quietly. You can ask someone with a callback, for the response.
 
 Answering a distant iq is handled with an handler. Default object handles :
 
- * _http://jabber.org/protocol/disco#info_
- * _jabber:iq:last_
- * _jabber:iq:version_
+ * _http://jabber.org/protocol/disco#info_ :discovery
+ * _jabber:iq:last_ : last action
+ * _jabber:iq:version_ : client version
 
 Here is an example :
 
@@ -96,4 +101,16 @@ Not handled iq throws an event : _iq:unknow_
 
 Just like Client, room is created with a callback, triggered when presence is return from the server.
 
-    this.room('beuha', function(status) {})
+    this.room('beuha', function(status) {
+
+    });
+
+Events :
+
+ * _presence_
+ * _message_
+
+Available attributes :
+
+ * _affiliation_
+ * _role_

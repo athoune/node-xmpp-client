@@ -48,7 +48,9 @@ exports.testClient = function(test) {
 */
 
 exports.testRoom = function(test) {
+	test.expect(1);
 	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
+	var MESSAGE = "Hello everybody";
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		sys.debug(('enter in ' + ROOM).green);
@@ -58,7 +60,14 @@ exports.testRoom = function(test) {
 				var a_room = a.room(ROOM, function(status) {
 					sys.debug(status);
 					sys.debug(this.role);
-					test.done();
+					this.addListener('message', function(from, msg, stanza) {
+						sys.debug('message : ' + msg);
+						test.equals(MESSAGE, msg);
+						if(MESSAGE == msg) {
+							test.done();
+						}
+					});
+					b_room.message(MESSAGE);
 				});
 			});
 			

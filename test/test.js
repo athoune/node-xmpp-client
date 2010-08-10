@@ -1,7 +1,7 @@
 var sys = require('sys'),
 	colors = require('colors'),
 	Client = require('../lib/xmpp-client').Client,
-	JID = require('xmpp').JID,
+	JID = require('node-xmpp').JID,
 	conf = require('./conf').conf;
 
 exports.testJid = function(test) {

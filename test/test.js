@@ -96,13 +96,17 @@ exports.testPubSub = function(test) {
 		});*/
 		p.node(POEMS, function() {
 			sys.debug('got my node'.yellow);
-			p.suscribe(POEMS, function(item) {
-				sys.debug('SUSCRIBE : ' + item.toString().yellow);
-				test.done();
-			},
-			function(subsription, id) {
-				p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'}).c('title').t('blab blah').tree());
-			});
+			p.suscribe(POEMS,
+				function(item) {
+					sys.debug('MESSAGE PUBSUB : ' + item.toString().yellow);
+					test.done();
+				},
+				function(subsription, id) {
+					p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'})
+						.c('title').t('blab blah')
+						.tree());
+				}
+			);
 			//test.done();
 		});
 		/*

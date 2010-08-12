@@ -1,5 +1,6 @@
 var sys = require('sys'),
 	colors = require('colors'),
+	xmpp = require('node-xmpp'),
 	Client = require('../lib/xmpp-client').Client,
 	JID = require('node-xmpp').JID,
 	conf = require('./conf').conf;
@@ -86,15 +87,16 @@ exports.testPubSub = function(test) {
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		this.addListener('iq:error', function(id, stanza) {
-			sys.debug(stanza.toString().yellow);
+			sys.error(stanza.toString().red);
 			test.done();
 		});
 		var p = b.pubsub();
 		p.node(POEMS, function() {
 			sys.debug('got my node'.yellow);
-			p.suscribe(POEMS, function(item) {
-				sys.debug(item.toString().yellow);
-			});
+			p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'}).c('title').t('blab blah').tree());
+			/*p.suscribe(POEMS, function(item) {
+				sys.debug('SUSCRIBE : ' + item.toString().yellow);
+			});*/
 			//test.done();
 		});
 		/*

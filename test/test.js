@@ -91,12 +91,18 @@ exports.testPubSub = function(test) {
 			test.done();
 		});
 		var p = b.pubsub();
+		/*p.discoNode(POEMS, function(r) {
+			sys.debug(r);
+		});*/
 		p.node(POEMS, function() {
 			sys.debug('got my node'.yellow);
-			p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'}).c('title').t('blab blah').tree());
-			/*p.suscribe(POEMS, function(item) {
+			p.suscribe(POEMS, function(item) {
 				sys.debug('SUSCRIBE : ' + item.toString().yellow);
-			});*/
+				test.done();
+			},
+			function(subsription, id) {
+				p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'}).c('title').t('blab blah').tree());
+			});
 			//test.done();
 		});
 		/*

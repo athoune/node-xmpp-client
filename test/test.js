@@ -47,6 +47,7 @@ exports.testClient = function(test) {
 };
 */
 
+/*
 exports.testRoom = function(test) {
 	test.expect(1);
 	var ROOM = 'mushroom@conference.' + conf.b.jid.split('@')[1];
@@ -79,16 +80,29 @@ exports.testRoom = function(test) {
 		});
 	});
 };
-
+*/
 exports.testPubSub = function(test) {
+	var POEMS = 'poems';
 	var b = new Client(conf.b, function() {
 		sys.debug('b is connected'.red);
 		this.addListener('iq:error', function(id, stanza) {
 			sys.debug(stanza.toString().yellow);
 			test.done();
 		});
-		b.suscribe(null, 'poems', function() {
+		var p = b.pubsub();
+		p.node(POEMS, function() {
+			sys.debug('got my node'.yellow);
+			p.suscribe(POEMS, function(item) {
+				sys.debug(item.toString().yellow);
+			});
+			//test.done();
 		});
+		/*
+		b.suscribe(null, POEMS, function(item) {
+			sys.debug(item.attrs.id.yellow);
+		});
+		*/
+		//b.publish(null, POEMS, );
 	});
 };
 

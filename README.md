@@ -8,16 +8,15 @@ IQ are handled with callback, presence and roster is manageable, every xmpp even
 Install
 -------
 
-You need the low level node xmpp tools.
+You need the low level node xmpp tools, and colors.
 
-    npm install xmpp
+    npm install .
 
 Test
 ----
 
 Async testing is a sport, you need colors for that :
 
-    npm install colors
     npm install nodeunit
 
 You have to edit a new file in `test/conf.js` :
@@ -114,3 +113,8 @@ Available attributes :
 
  * _affiliation_
  * _role_
+
+
+### PubSub ###
+
+Pubsub support is experimental for now.

@@ -1,5 +1,5 @@
 {
-	"name"        : "node-xmpp-client",
+	"name"        : "xmpp-client",
 	"version"     : "0.0.1",
 	"main"        : "./lib/xmpp-client",
 	"description" : "High level xmpp client for node.js",

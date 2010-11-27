@@ -26,13 +26,18 @@ exports.testIq = function(test) {
 };
 
 exports.testPresence = function(test) {
+	/*
+	[FIXME] this test don't manage Resource, if you have an opened jabber client, it may hurt this test
+	*/
 	test.expect(1);
+	var prems = true;
 	var b = new BasicClient(conf.b, function() {
 		this.addListener('presence', function(presence) {
-			//sys.debug(presence.attrs.from.split('/')[0].red);
-			if(presence.attrs.from.split('/')[0] == conf.a.jid) {
+			//sys.debug(presence.attrs.from.red);
+			if(presence.attrs.from.split('/')[0] == conf.a.jid && prems) {
 				test.ok(true, "B is present");
 				test.done();
+				prems = false;
 			}
 		});
 		var a = new BasicClient(conf.a, function() {

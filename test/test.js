@@ -2,21 +2,7 @@ var sys = require('sys'),
 	colors = require('colors'),
 	xmpp = require('node-xmpp'),
 	Client = require('../lib/xmpp-client').Client,
-	JID = require('node-xmpp').JID,
 	conf = require('./conf').conf;
-
-exports.testJid = function(test) {
-	test.expect(4);
-	var j = new JID('mathieu@gtalk.com');
-	//sys.debug(JSON.stringify(j));
-	test.equals('mathieu', j.user);
-	test.equals('gtalk.com', j.domain);
-	test.equals(null, j.resource);
-	j = new JID('mathieu@jabber.org/machin');
-	//sys.debug(JSON.stringify(j));
-	test.equals('machin', j.resource);
-	test.done();
-};
 
 exports.testClientInit = function(test) {
 	var c = new Client({jid: 'mathieu@gtalk.com', password:'toto'});
@@ -90,35 +76,25 @@ exports.testPubSub = function(test) {
 			sys.error(stanza.toString().red);
 			test.done();
 		});
-		var p = b.pubsub();
-		/*p.discoNode(POEMS, function(r) {
-			sys.debug(r);
-		});*/
-		p.node(POEMS, function() {
+		this.pubsub().node(POEMS, function() {
 			sys.debug('got my node'.yellow);
-			p.suscribe(POEMS,
+			sys.debug('node : ' + this.toString().red);
+			this.suscribe(
 				function(item) {
 					sys.debug('MESSAGE PUBSUB : ' + item.toString().yellow);
 					test.done();
 				},
 				function(subsription, id) {
-					p.publish(POEMS, new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'})
+					this.publish(new xmpp.Element('entry', {xmlns: 'http://www.w3.org/2005/Atom'})
 						.c('title').t('blab blah')
 						.tree());
 				}
 			);
-			//test.done();
 		});
-		/*
-		b.suscribe(null, POEMS, function(item) {
-			sys.debug(item.attrs.id.yellow);
-		});
-		*/
-		//b.publish(null, POEMS, );
 	});
 };
 
-if(module.id == '.') {
-	var testrunner = require('nodeunit').testrunner;
+/*if(module.id == '.') {
+	var testrunner = require('nodeunit').reporters.default;
 	testrunner.run([__filename]);
-}
+}*/

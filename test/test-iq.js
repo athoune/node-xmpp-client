@@ -11,8 +11,8 @@ exports.testIq = function(test) {
 		var b = new Client(conf.b, function() {
 			//sys.debug(this.jid.toString().blue);
 			a.getVersion(b.jid, function(version) {
-				sys.debug(version.toString().yellow);
-				test.ok(true, 'version');
+				sys.debug(JSON.stringify(version).yellow);
+				test.equals('node-xmpp-client',version.name, 'same client');
 				test.done();
 			},
 			function(iq) {

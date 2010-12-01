@@ -4,7 +4,7 @@ var sys = require('sys'),
 	Client = require('../lib/xmpp-client').Client,
 	conf = require('./conf').conf;
 	
-exports.testIq = function(test) {
+exports.testVersion = function(test) {
 	test.expect(1);
 	var a = new Client(conf.a, function() {
 		//sys.debug(this.jid.toString().blue);
@@ -17,6 +17,20 @@ exports.testIq = function(test) {
 			},
 			function(iq) {
 				sys.error(iq.toString().red);
+				test.done();
+			});
+		});
+	});
+};
+
+exports.testLast = function(test) {
+	test.expect(1);
+	var a = new Client(conf.a, function() {
+		//sys.debug(this.jid.toString().blue);
+		var b = new Client(conf.b, function() {
+			a.getLast(a.jid, function(version) {
+				sys.debug(version);
+				test.ok(version > 0, 'last');
 				test.done();
 			});
 		});
